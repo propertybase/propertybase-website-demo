@@ -1,0 +1,79 @@
+/*
+ *    Slider styles
+ */
+
+#slider {
+  position: relative;
+  overflow: hidden;
+  margin: 20px auto 0 auto;
+}
+
+#slider ul {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#slider ul li {
+  position: relative;
+  display: block;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 1160px;
+  height: 620px;
+  background: #ccc;
+  text-align: center;
+  background-position: center;
+  background-size: cover;
+}
+
+a.prev, a.next {
+  position: absolute;
+  top: 50%;
+  margin-top: -50px;
+  z-index: 99;
+  display: block;
+  padding: 40px 25px;
+  width: auto;
+  height: auto;
+  background: #fff;
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 24px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+a.prev img, a.next img {
+  width: 15px;
+}
+
+a.prev:hover, a.next:hover {
+  opacity: .6;
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+}
+
+a.prev {
+  border-radius: 0 2px 2px 0;
+}
+
+a.prev img {
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+a.next {
+  right: 0;
+  border-radius: 2px 0 0 2px;
+}
+
+a.next img {
+  -webkit-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}

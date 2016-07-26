@@ -1,0 +1,159 @@
+<html>
+<head>
+  <title>Propertybase Webservices Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/ico" href="images/favicon.ico">
+
+  <!-- Google Fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+
+  <!-- jQuery + jQuery UI -->
+  <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.structure.min.css"></script>
+
+  <!-- Mustache -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
+
+  <!-- Leaflet for interactive maps -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+
+  <!-- Custom styles and scripts -->
+  <link href="assets/css/app.css" rel="stylesheet">
+  <script type="text/javascript" src="assets/js/scripts.js"></script>
+
+  <!-- Mustache card template -->
+  <script id="card-template" type="text/html">
+    {{#Listings}}
+    <li id="{{Id}}" class="card">
+      <div class="card-inner">
+        <div class="card-image" style="background-image: url({{Image}})"></div>
+        <div class="card-content">
+          <span class="card-property-type">{{PropertyType}}<br></span>
+          <h3 class="card-title">{{Name}}</h3>
+          <p class="card-address">{{City}}</p>
+          <p class="card-price">{{Price}}</p>
+          <ul class="item-list cf">
+            <li>{{Size}}<br></li>
+            <li>{{Bedrooms}}<br></li>
+            <li>{{Bathrooms}}<br></li>
+            <li>sqft</li>
+            <li>Beds</li>
+            <li>Baths</li>
+          </ul>
+        </div>
+      </div>
+    </li>
+    {{/Listings}}
+  </script>
+
+  <!-- Mustache panel template -->
+  <script id="panel-template" type="text/html">
+    <div class="panel-inner cf">
+      <a id="js-back-to-overview" class="button-back"><span>&#9667;</span></a>
+      <div class="panel-left">
+        <div class="panel-content">
+          <span class="panel-property-type">{{PropertyType}}<br></span>
+          <h2 class="panel-title">{{Name}}</h2>
+          <p class="panel-address">{{Address}}, {{City}}, {{StateCode}} {{PostalCode}}</p>
+          <p class="panel-price">{{Price}}</p>
+          <ul class="item-list large cf">
+            <li>{{PropertyType}}<br></li>
+            <li>{{Size}}<br></li>
+            <li>{{Bedrooms}}<br></li>
+            <li>{{Bathrooms}}<br></li>
+            <li>Property Type</li>
+            <li>sqft</li>
+            <li>Beds</li>
+            <li>Baths</li>
+          </ul>
+        </div>
+        <div class="panel-image" style="background-image: url({{Image}})">
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-form-header">Description</h2>
+            <p class="panel-description">{{Description}}</p>
+          </div>
+        </div>
+        <div id="js-map" class="map"></div>
+        <div class="panel-right">
+          <h3 id="js-inquiry-title" class="panel-form-header">Curious about this property?<br>Let us help you learn more.</h3>
+          <form id="js-inquiry-form" name="inquiry" method="post">
+            <!-- Input fields -->
+            <div class="input-field vertical">
+              <label class="label inverse">First name*</label>
+              <input class="full" maxlength="40" name="FirstName" type="text">
+            </div>
+            <div class="input-field vertical">
+              <label class="label inverse">Last name*</label>
+              <input class="full" maxlength="40" name="LastName" type="text" required>
+            </div>
+            <div class="input-field vertical">
+              <label class="label inverse">Phone*</label>
+              <input class="full" maxlength="40" name="Phone" type="tel">
+            </div>
+            <div class="input-field vertical">
+              <label class="label inverse">Email*</label>
+              <input class="full" maxlength="40" name="Email" type="email">
+            </div>
+            <div class="input-field vertical">
+              <label class="label inverse">Questions / Comments</label>
+              <textarea class="full" maxlength="10000" rows="6" name="Message"></textarea>
+            </div>
+            <!-- Hidden fields -->
+            <input type="hidden" name="FavoriteId" value="{{Id}}"/>
+            <input type="hidden" name="LeadSource" value="Web" />
+            <!-- Submit button -->
+            <button id="js-submit-inquiry" type="submit">Send inquiry</button>
+          </form>
+        </div>
+      </div>
+    </script>
+  </head>
+  <body>
+
+    <!-- Header -->
+    <div class="header">
+      <div class="wrapper">
+        <div class="header-logo">
+          <a href="/"><h1 class="header-title">BayArea <span class="thin">Brokers</span></h1></a>
+        </div>
+        <nav class="header-nav">
+          <a href="/about-us.html">About us</a>
+          <a href="/blog.html">Blog</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Image -->
+    <div class="showcase" style="background-image:url(images/showcase.jpg)">
+    </div>
+
+    <!-- Content -->
+    <div class="main">
+      <div class="wrapper">
+        <div class="panel">
+                  <div class="panel-inner">
+           <div class="panel-content">
+          <h2 class="panel-title">Blog<br><br></h2>
+          <iframe src="https://www.propertybase.com/blog/10-exceptional-propertybase-website-integrations"></iframe>
+        </div>
+      </div>
+              </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="wrapper">
+        <div class="footer-logo">
+          <small>Powered by</small>
+          <img width="120" src="images/pb_logo.png">
+        </div>
+      </div>
+    </div>
+  </body>
+  </html>

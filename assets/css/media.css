@@ -1,0 +1,69 @@
+/*
+ *    Responsive styles
+ */
+
+@media screen and (min-width: 1000px) {
+  .card:nth-child(3n+1) {
+    clear: both;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .panel-right {
+    width: 100%;
+  }
+  .panel-left {
+    width: 100%;
+  }
+  .map {
+    width: 100%;
+  }
+  .form-container {
+    display: block;
+  }
+  .input-field, select, button, .slider-range {
+    width: 100%;
+  }
+  form[name="search"] {
+    margin-right: 0;
+  }
+  .search-input {
+    border-right: 1px solid #ddd;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .card {
+    width: 50%;
+  }
+  .card:nth-child(2n+1) {
+    clear: both;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .half {
+    width: 100%;
+  }
+  .full {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .modal-inner {
+    width: 100%;
+  }
+  .card {
+    width: 100%;
+  }
+  .card-image, .panel-image {
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .card-image, .panel-image {
+    height: 200px;
+  }
+}

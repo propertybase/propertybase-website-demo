@@ -1,0 +1,341 @@
+<html>
+  <head>
+    <title>Propertybase Webservices Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/ico" href="images/favicon.ico">
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+    <!-- jQuery + jQuery UI -->
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.structure.min.css"></script>
+    <!-- Handlebars.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <!-- Leaflet for interactive maps -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+    <!-- Custom styles and scripts -->
+    <link href="assets/css/app.css" rel="stylesheet">
+    <script type="text/javascript" src="assets/js/scripts.js"></script>
+    <!-- Card template -->
+    <script id="card-template" type="text/x-handlebars-template">
+    {{#Listings}}
+    <li id="{{Id}}" class="card">
+      <div class="card-inner">
+        <div class="card-image" style="background-image: url({{#if Images.0.Image}}{{Images.0.Image}}{{else}}images/no_image.jpg{{/if}})"></div>
+        <div class="card-content">
+          <span class="card-property-type">{{PropertyType}}<br></span>
+          <h3 class="card-title">{{Name}}</h3>
+          <p class="card-address">{{City}}</p>
+          <p class="card-price">{{Price}}</p>
+          <ul class="item-list cf">
+            <li>{{Size}}<br></li>
+            <li>{{Bedrooms}}<br></li>
+            <li>{{Bathrooms}}<br></li>
+            <li>sqft</li>
+            <li>Beds</li>
+            <li>Baths</li>
+          </ul>
+        </div>
+      </div>
+    </li>
+    {{/Listings}}
+    </script>
+    <!-- Panel template -->
+    <script id="panel-template" type="text/x-handlebars-template">
+    <div class="panel-inner cf">
+      <a id="js-back-to-overview" class="button-back"><span><img src="images/arrow-down-white.svg"></span></a>
+      <div class="panel-left">
+        <div class="panel-content">
+          <span class="panel-property-type">{{PropertyType}}<br></span>
+          <h2 class="panel-title">{{Name}}</h2>
+          <p class="panel-address">{{Address}}, {{City}}, {{StateCode}} {{PostalCode}}</p>
+          <p class="panel-price">{{Price}}</p>
+          <ul class="item-list large cf">
+            <li>{{PropertyType}}<br></li>
+            <li>{{Size}}<br></li>
+            <li>{{Bedrooms}}<br></li>
+            <li>{{Bathrooms}}<br></li>
+            <li>Property Type</li>
+            <li>sqft</li>
+            <li>Beds</li>
+            <li>Baths</li>
+          </ul>
+        </div>
+        <div id="slider">
+          <a class="next"><img src="images/arrow-down.svg"></a>
+          <a class="prev"><img src="images/arrow-down.svg"></a>
+          <ul>
+          {{#Images}}
+          <li style="background-image: url({{#if Image}}{{Image}}{{else}}images/no_image.jpg{{/if}});">
+          </li>
+          {{/Images}}
+          </ul>
+        </div>
+        <div class="panel-content">
+          <h3 class="panel-form-header">Description</h2>
+          <p class="panel-description">{{Description}}</p>
+        </div>
+      </div>
+      <div class="map-warning">Please swap the tile layer of the map!</div>
+      <div id="js-map" class="map"></div>
+      <div class="panel-right">
+        <h3 id="js-inquiry-title" class="panel-form-header">Curious about this property?<br>Let us help you learn more.</h3>
+        <form id="js-inquiry-form" name="inquiry" method="post">
+          <!-- Input fields -->
+          <div class="input-field vertical">
+            <label class="label inverse">First name*</label>
+            <input class="full" maxlength="40" name="FirstName" type="text">
+          </div>
+          <div class="input-field vertical">
+            <label class="label inverse">Last name*</label>
+            <input class="full" maxlength="40" name="LastName" type="text" required>
+          </div>
+          <div class="input-field vertical">
+            <label class="label inverse">Phone*</label>
+            <input class="full" maxlength="40" name="Phone" type="tel">
+          </div>
+          <div class="input-field vertical">
+            <label class="label inverse">Email*</label>
+            <input class="full" maxlength="40" name="Email" type="email">
+          </div>
+          <div class="input-field vertical">
+            <label class="label inverse">Questions / Comments</label>
+            <textarea class="full" maxlength="500" rows="6" name="Message"></textarea>
+          </div>
+          <!-- Hidden fields -->
+          <input type="hidden" name="FavoriteId" value="{{Id}}"/>
+          <input type="hidden" name="LeadSource" value="Web" />
+          <!-- Submit button -->
+          <button id="js-submit-inquiry" type="submit">Send inquiry</button>
+        </form>
+      </div>
+    </div>
+    </script>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <div class="wrapper">
+        <div class="header-logo">
+          <a href="/"><h1 class="header-title">BayArea <span class="thin">Brokers</span></h1></a>
+        </div>
+        <nav class="header-nav">
+          <a href="/about-us.html">About us</a>
+          <a href="/blog.html">Blog</a>
+        </nav>
+      </div>
+    </div>
+  <!-- Image -->
+  <div class="showcase" style="background-image:url(images/showcase.jpg)">
+  </div>
+  <!-- Search bar -->
+  <div class="search">
+    <div class="wrapper">
+      <div class="search-form">
+        <div class="search-form-title">
+          Search for luxury properties in North and South Cal
+        </div>
+        <div class="form-container">
+          <form class="cf" method="post" name="search">
+            <!-- Input fields -->
+            <div class="input-field">
+              <select class="search-input first" name="type">
+                <option value="default">Any Type</option>
+                <option value="Sale">Sale</option>
+                <option value="Rent">Rent</option>
+              </select>
+            </div>
+            <div class="input-field">
+              <div class="slider search-input selected">
+                <p type="text" id="js-amount"></p>
+                <input type="hidden" name="price" value="500000;800000">
+                <div id="js-slider-range" class="slider-range"></div>
+              </div>
+            </div>
+            <div class="input-field">
+              <select class="search-input" name="bedrooms">
+                <option value="default">~ Beds</option>
+                <option value="1">1 Beds</option>
+                <option value="2">2 Beds</option>
+                <option value="3">3 Beds</option>
+                <option value="4">4 Beds</option>
+                <option value="5">5+ Beds</option>
+              </select>
+            </div>
+            <div class="input-field">
+              <select class="search-input" name="bathrooms">
+                <option value="default">~ Baths</option>
+                <option value="1">1 Baths</option>
+                <option value="2">2 Baths</option>
+                <option value="3">3 Baths</option>
+                <option value="4">4 Baths</option>
+                <option value="5">5+ Baths</option>
+              </select>
+            </div>
+            <!-- Submit -->
+            <div class="input-field">
+              <button id="js-search-submit" type="submit">Search</button>
+            </div>
+          </form>
+          <!-- Card view -->
+          <div class="input-field">
+            <div class="check-button">
+              <label><input type="radio" class="card-checkbox" type="submit" name="view" value="card view" checked><span><img width="19" src="images/cards.png">Cards</span></label>
+            </div>
+          </div>
+          <!-- Map view -->
+          <div class="input-field">
+            <div class="check-button">
+              <label><input type="radio" class="card-checkbox" type="submit" name="view" value="map view"><span><img width="20" src="images/marker.png">Map</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Spinner -->
+  <div id="js-spinner" class="input-field-spinner">
+    <div align="center" class="cssload-fond">
+      <div class="cssload-container-general">
+        <div class="cssload-internal"><div class="cssload-ballcolor cssload-ball_1"></div></div>
+        <div class="cssload-internal"><div class="cssload-ballcolor cssload-ball_2"></div></div>
+        <div class="cssload-internal"><div class="cssload-ballcolor cssload-ball_3"></div></div>
+        <div class="cssload-internal"><div class="cssload-ballcolor cssload-ball_4"></div></div>
+      </div>
+    </div>
+  </div>
+  <!-- Search results -->
+  <div id="js-overview" class="main">
+    <div class="wrapper">
+      <div id="js-error" class="error cf">
+        <div class="error-image" style="background-image:url(images/no_results.jpg)">
+        </div>
+        <div class="error-message">
+          <h3>Sorry, we couldn't find any listings. Please try different settings!</h3>
+          <p id="js-error-detail"></p>
+        </div>
+      </div>
+      <ul id="js-cards" class="cards cf">
+        <!-- Card template -->
+      </ul>
+    </div>
+  </div>
+  <!-- Search results on map -->
+  <div id="js-overview-map" class="main">
+    <div class="wrapper">
+      <div class="map-warning">Please swap the tile layer of the map!</div>
+      <div class="map-search-container cf">
+        <div id="js-map-search" class="map-search"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Listing detail -->
+  <div id="js-detail" class="main">
+    <div class="wrapper">
+      <div id="js-panel" class="panel">
+        <!-- Panel template -->
+      </div>
+    </div>
+  </div>
+  <!-- Search request -->
+  <div class="main last">
+    <div class="wrapper">
+      <div class="panel">
+        <div class="panel-inner">
+          <div class="panel-content white cf">
+            <h3 id="js-request-title" class="panel-request-header">You didn't find your dream house? <br>No worries, just submit a search request and we will inform you of new entries!</h3><a id="js-toggle" class="button-toggle"><span><img src="images/arrow-down.svg"></span></a>
+          </div>
+          <div id="js-request-form-container" class="panel-content half hidden cf">
+            <form id="js-request-form" name="request" method="post">
+              <!-- Input fields -->
+              <div class="input-field vertical">
+                <label class="label inverse">First name*</label>
+                <input class="full" maxlength="40" name="FirstName" type="text">
+              </div>
+              <div class="input-field vertical">
+                <label class="label inverse">Last name*</label>
+                <input class="full" maxlength="40" name="LastName" type="text" required>
+              </div>
+              <div class="input-field vertical">
+                <label class="label inverse">Phone*</label>
+                <input class="full" maxlength="40" name="Phone" type="tel">
+              </div>
+              <div class="input-field vertical">
+                <label class="label inverse">Email*</label>
+                <input class="full" maxlength="40" name="Email" type="email">
+              </div>
+              <div class="input-field vertical">
+                <label for="r_pba__ListingType__c" class="label inverse">Rent/Sale</label>
+                <select class="full" name="r_pba__ListingType__c" size="1">
+                  <option>Rent</option>
+                  <option selected="selected">Sale</option>
+                </select>
+              </div>
+              <div class="input-field vertical">
+                <label for="r_Price_min__c" class="label inverse">Budget From</label>
+                <input class="full" type="text" maxlength="40" class="textfield" name="r_pba__ListingPrice_pb_min__c" required>
+              </div>
+              <div class="input-field vertical">
+                <label for="r_Price_max__c" class="label inverse">Budget To</label>
+                <input class="full" type="text" maxlength="40" class="textfield" name="r_pba__ListingPrice_pb_max__c" required>
+              </div>
+              <div class="input-field vertical">
+                <label for="r_pba__City_pb__c" class="label inverse">Searching in City</label>
+                <input class="full" type="text" size="40" maxlength="100" name="r_pba__City_pb__c">
+              </div>
+              <span class="category">Type</span>
+              <div class="input-field vertical">
+                <label class="label inverse">
+                  <input type="checkbox" maxlength="40" class="checkbox" name="r_pba__PropertyType__c[]" value="Apartment">
+                Apartment</label>
+              </div>
+              <div class="input-field vertical">
+                <label class="label inverse">
+                  <input type="checkbox" maxlength="40" class="checkbox" name="r_pba__PropertyType__c[]" value="Villa">
+                Villa</label>
+              </div>
+              <div class="input-field vertical">
+                <label class="label inverse">
+                  <input type="checkbox" maxlength="40" class="checkbox" name="r_pba__PropertyType__c[]" value="Office">
+                Office</label>
+              </div>
+              <span class="category">View</span>
+              <div class="input-field vertical">
+                <label class="label inverse">
+                  <input type="checkbox" class="checkbox" name="r_View__c[]" id="r_View__c1" value="Ocean">
+                Ocean</label>
+              </div>
+              <div class="input-field vertical">
+                <label class="label inverse">
+                  <input type="checkbox" class="checkbox" name="r_View__c[]" id="r_View__c2" value="Marina">
+                Marina</label>
+              </div>
+              <div class="input-field vertical">
+                <label class="label inverse">
+                  <input type="checkbox" class="checkbox" name="r_View__c[]" id="r_View__c3" value="Harbor">
+                Harbor</label>
+              </div>
+              <!-- Hidden fields -->
+              <input type="hidden" name="LeadSource" value="Web">
+              <!-- Submit button -->
+              <button id="js-request-submit" type="submit">Submit a request</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <div class="footer">
+    <div class="wrapper">
+      <div class="footer-logo">
+        <small>Powered by</small>
+        <img width="120" src="images/pb_logo.png">
+      </div>
+    </div>
+  </div>
+</body>
+</html>
