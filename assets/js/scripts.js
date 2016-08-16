@@ -31,7 +31,7 @@ $(function() {
       requestContent();
       updateSearchFilter(queryParams);
     } else {
-      console.info("Request featured listings");
+      console.info("Request initial listings");
       requestContent();
       adjustSlider();
     }
@@ -55,7 +55,7 @@ $(function() {
     } else if(queryParams.price) {
       requestData = queryParams;
     } else {
-      requestData = { featured : true };
+      requestData = { price : rangeStart + ";" + rangeEnd };
     }
 
       $.ajax({

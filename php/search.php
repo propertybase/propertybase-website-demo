@@ -20,9 +20,6 @@ $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 if(isset($_POST["id"]) && $_POST["id"] != null){
   $search_params["id"] = $_POST["id"];
 }
-if(isset($_POST["featured"]) && $_POST["featured"] != "default"){
-  $search_params["featured"] = $_POST["featured"];
-}
 if(isset($_POST["type"]) && $_POST["type"] != "default"){
   $search_params["type"] = $_POST["type"];
 }
@@ -54,9 +51,6 @@ $requestArray = [
 // Add search parmeters to query
 foreach ($search_params as $key => $value) {
   switch ($key) {
-    case "featured":
-    $requestArray["Featured_on_Website__c"] = $value;
-    break;
     case "id":
     $requestArray["Id"] = $value;
     break;
