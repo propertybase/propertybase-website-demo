@@ -60,7 +60,7 @@ $(function() {
 
       $.ajax({
         type: "POST",
-        url: "../php/search.php",
+        url: "php/search.php",
         data: requestData,
         success : function(response) {
 
@@ -358,7 +358,7 @@ $(function() {
   $('#js-panel').on('submit', 'form[name=inquiry]', function(e) {
      e.preventDefault();
      $.ajax({
-       url : '../../php/listing_request.php',
+       url : 'php/listing_request.php',
        type : 'post',
        data : $(this).serializeArray(),
        success : function(response) {
@@ -391,7 +391,7 @@ $(function() {
   $('#js-request-form').on('submit', function(e) {
      e.preventDefault();
      $.ajax({
-       url : '../../php/search_request.php',
+       url : 'php/search_request.php',
        type : 'post',
        data : $(this).serializeArray(),
        success : function(response) {
