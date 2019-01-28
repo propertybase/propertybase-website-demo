@@ -333,6 +333,7 @@ input.url-input {
   float: left;
   font-size: 15px;
   margin-top: 20px;
+  color: red;
 }
 
 .error-message h3 {
