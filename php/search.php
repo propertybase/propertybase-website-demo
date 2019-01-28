@@ -39,11 +39,10 @@ $result = "";
 // Define request
 $requestArray = [
   "token" => $weblisting_token,
-  "fields" => "ID;name;pba__Description_pb__c;pba__Address_pb__c;pba__ListingPrice_pb__c;pba__Bedrooms_pb__c;pba__FullBathrooms_pb__c;pba__TotalArea_pb__c;pba__Latitude_pb__c;pba__Longitude_pb__c;pba__PropertyType__c;pba__City_pb__c;pba__StateCode_pb__c;pba__PostalCode_pb__c;MonthlyRent__c",
+  "fields" => "Id;name;pba__Description_pb__c;pba__Address_pb__c;pba__ListingPrice_pb__c;pba__Bedrooms_pb__c;pba__FullBathrooms_pb__c;pba__TotalArea_pb__c;pba__Latitude_pb__c;pba__Longitude_pb__c;pba__PropertyType__c;pba__City_pb__c;pba__StateCode_pb__c;pba__PostalCode_pb__c;MonthlyRent__c",
   "itemsperpage" => "9",
   "orderby" => "pba__ListingPrice_pb__c;ASC",
   "getimages" => "true",
-  "pba__Status__c"  => "in(Available;Active)",
   "format" => "json",
   "debugmode" => "true"
 ];
@@ -103,7 +102,7 @@ $response = json_decode($response);
 
 // Extract data from response
 if (!isset($response->listings[0])) {
-  $error_data['errorMessages'] = (string) $response->errorMessages;
+  $error_data['errorMessages'] = implode(",", $response->errorMessages);
   die(json_encode($error_data));
 } else {
   $array = array("Listings" => array());

@@ -66,7 +66,8 @@ $(function() {
 
           $('#js-spinner').hide();
 
-          var responseParsed = JSON.parse(response);         
+          var responseParsed = JSON.parse(response);      
+   
           if(responseParsed.Listings){
             console.info("Response:");
             console.info(responseParsed.Listings);     
@@ -90,14 +91,14 @@ $(function() {
             } else {
               renderMapView();
             }
-
           } else {
             var error = responseParsed["errorMessages"]["message"];
-            $('#js-overview').show();
-            $('#js-error-detail').html("Error: " + error);
-            $('#js-error').show();
-          }
 
+            $('#js-overview').show();
+            $('#js-error').show();
+
+            if (error) $('#js-error-detail').html("Error: " + error);
+          }
         }
       });
   }
