@@ -8,8 +8,8 @@ require 'config.php';
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// ini_set('display_errors','On');
-// error_reporting(E_ALL);
+ ini_set('display_errors','On');
+ error_reporting(E_ALL);
 
 // Sanitize POST array to prevent XSS attacks
 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);

@@ -8,8 +8,8 @@ require 'config.php';
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// ini_set('display_errors','On');
-// error_reporting(E_ALL);
+ ini_set('display_errors','On');
+ error_reporting(E_ALL);
 
 // Sanitize POST array to prevent XSS attacks
 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -29,8 +29,8 @@ $query = array (
     'pba__ListingPrice_pb_min__c' => is_numeric($_POST["r_pba__ListingPrice_pb_min__c"]) ? $_POST["r_pba__ListingPrice_pb_min__c"] : null ,
     'pba__ListingPrice_pb_max__c' => is_numeric($_POST["r_pba__ListingPrice_pb_max__c"]) ? $_POST["r_pba__ListingPrice_pb_max__c"] : null ,
     'pba__City_pb__c' => $_POST["r_pba__City_pb__c"],
-    'pba__PropertyType__c' => empty($_POST["r_pba__PropertyType__c"]) ? null : implode ( ";" , $_POST["r_pba__PropertyType__c"]),
-    'View__c' =>  empty($_POST["r_View__c"])  ? null : implode ( ";" , $_POST["r_View__c"])
+    'pba__PropertyType__c' => empty($_POST["r_pba__PropertyType__c"]) ? null : implode ( ";" , $_POST["r_pba__PropertyType__c"])
+    
   ),
   'ownerFields' => array('LastName'),
   'requestFields' => array('Name'),

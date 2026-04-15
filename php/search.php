@@ -8,8 +8,8 @@ require 'config.php';
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// ini_set('display_errors','true');
-// error_reporting(E_ALL);
+ ini_set('display_errors','true');
+ error_reporting(E_ALL);
 
 $search_params = [];
 
@@ -39,11 +39,14 @@ $result = "";
 // Define request
 $requestArray = [
   "token" => $weblisting_token,
-  "fields" => "Id;name;pba__Description_pb__c;pba__Address_pb__c;pba__ListingPrice_pb__c;pba__Bedrooms_pb__c;pba__FullBathrooms_pb__c;pba__TotalArea_pb__c;pba__Latitude_pb__c;pba__Longitude_pb__c;pba__PropertyType__c;pba__City_pb__c;pba__StateCode_pb__c;pba__PostalCode_pb__c;MonthlyRent__c",
+  "fields" => "Id;name;pba__Description_pb__c;pba__Address_pb__c;pba__ListingPrice_pb__c;pba__Bedrooms_pb__c;pba__FullBathrooms_pb__c;pba__TotalArea_pb__c;pba__Latitude_pb__c;pba__Longitude_pb__c;pba__PropertyType__c;pba__City_pb__c;pba__StateCode_pb__c;pba__PostalCode_pb__c",
   "itemsperpage" => "9",
   "orderby" => "pba__ListingPrice_pb__c;ASC",
   "getimages" => "true",
   "format" => "json",
+  "pba__Status__c"  => "IN(Active;Available)",
+  "pba__NotAvailableOnWebsite__c" => "false",
+  "pba__SystemAllowedForPortals__c" => "true",
   "debugmode" => "true"
 ];
 
@@ -58,7 +61,7 @@ foreach ($search_params as $key => $value) {
     break;
     case "price":
     if(isset($search_params["type"]) && $search_params["type"] == "Rent") {
-      $requestArray["MonthlyRent__c"] = '[' . $value . ']';
+      $requestArray["pba__ListingPrice_pb__c"] = '[' . $value . ']';
     } else {
       $requestArray["pba__ListingPrice_pb__c"] = '[' . $value . ']';
     }
@@ -118,7 +121,7 @@ if (!isset($response->listings[0])) {
     $array_temp['StateCode'] = (string) $listing->data->pba__statecode_pb__c;
     $array_temp['PostalCode'] = (string) $listing->data->pba__postalcode_pb__c;
     if(isset($search_params["type"]) && $search_params['type'] == 'Rent') {
-      $array_temp['Price'] = (string) $listing->data->monthlyrent__c;
+      $array_temp['Price'] = (string) $listing->data->pba__ListingPrice_pb__c;
     } else {
       $array_temp['Price'] = (string) $listing->data->pba__listingprice_pb__c;
     }
