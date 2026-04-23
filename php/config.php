@@ -23,21 +23,21 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-if (getenv("WEBLISTINGS_ENDPOINT") !== false){
-  $weblisting_endpoint = getenv("WEBLISTINGS_ENDPOINT");
-}
+// if (getenv("WEBLISTINGS_ENDPOINT") !== false){
+//   $weblisting_endpoint = getenv("WEBLISTINGS_ENDPOINT");
+// }
 
-if (getenv("WEBLISTINGS_TOKEN") !== false){
-  $weblisting_token = getenv("WEBLISTINGS_TOKEN");
-}
+// if (getenv("WEBLISTINGS_TOKEN") !== false){
+//   $weblisting_token = getenv("WEBLISTINGS_TOKEN");
+// }
 
-if (getenv("WEBTOPROSPECT_ENDPOINT") !== false){
-  $web_to_prospect_endpoint = getenv("WEBTOPROSPECT_ENDPOINT");
-}
+// if (getenv("WEBTOPROSPECT_ENDPOINT") !== false){
+//   $web_to_prospect_endpoint = getenv("WEBTOPROSPECT_ENDPOINT");
+// }
 
-if (getenv("WEBTOPROSPECT_TOKEN") !== false){
-  $web_to_prospect_token = getenv("WEBTOPROSPECT_TOKEN");
-}
+// if (getenv("WEBTOPROSPECT_TOKEN") !== false){
+//   $web_to_prospect_token = getenv("WEBTOPROSPECT_TOKEN");
+// }
 
 ///////////////////////////////////////////////////////////////////////////////
 //
