@@ -23,21 +23,21 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// if (array_key_exists("WEBLISTINGS_ENDPOINT", $_ENV)){
-//   $weblisting_endpoint = $_ENV["WEBLISTINGS_ENDPOINT"];
-// }
+if (array_key_exists("WEBLISTINGS_ENDPOINT", $_ENV)){
+  $weblisting_endpoint = $_ENV["WEBLISTINGS_ENDPOINT"];
+}
 
-// if (array_key_exists("WEBLISTINGS_TOKEN", $_ENV)){
-//   $weblisting_token = $_ENV["WEBLISTINGS_TOKEN"];
-// }
+if (array_key_exists("WEBLISTINGS_TOKEN", $_ENV)){
+  $weblisting_token = $_ENV["WEBLISTINGS_TOKEN"];
+}
 
-// if (array_key_exists("WEBTOPROSPECT_ENDPOINT", $_ENV)){
-//   $web_to_prospect_endpoint = $_ENV["WEBTOPROSPECT_ENDPOINT"];
-// }
+if (array_key_exists("WEBTOPROSPECT_ENDPOINT", $_ENV)){
+  $web_to_prospect_endpoint = $_ENV["WEBTOPROSPECT_ENDPOINT"];
+}
 
-// if (array_key_exists("WEBTOPROSPECT_TOKEN", $_ENV)){
-//   $web_to_prospect_token = $_ENV["WEBTOPROSPECT_TOKEN"];
-// }
+if (array_key_exists("WEBTOPROSPECT_TOKEN", $_ENV)){
+  $web_to_prospect_token = $_ENV["WEBTOPROSPECT_TOKEN"];
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //
